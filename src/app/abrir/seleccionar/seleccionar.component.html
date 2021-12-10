@@ -1,0 +1,58 @@
+<div class ="col-lg-12" style="padding-top: 20px">
+  <div class="card">
+    <div class="card-header">
+      <b>IMPORTAR EXCEL</b>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <form action="#" enctype="multipart/form-data">
+          <div class="col-lg-10">
+            <input type="file" id="txt_archivo" class="form-control" accept=".csv,.xlxs, .xls">
+          </div>
+          <div class="col-lg-2">
+            <button class="btn btn-primary" style="width: 100%" (click)="CargarExcel()">Cargar excel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  $('input[type="file"]').on('change',function (){
+    var ext = $(this).value().split('.').pop();
+    if($(this).value() != ''){
+      if(ext == "xls" || ext == "xlxs"|| ext == "csv"|| ext == "xlsm"){
+      }
+      else{
+        $(this).value('');
+        Swal.fire("Mensaje De Error", "Extencion no permitida: " + ext +"", "error");
+      }
+    }
+  });
+  CargarExcel(){
+    var excel = ("#txt_archivo").valueOf();
+    if(excel == ""){
+      Swal.fire("Mensaje De Advertencia", "Seleccionar archivo","warning");
+    }
+    var formdata = FormData();
+    var files = ("#txt_archivo")[0].files[0];
+    formdata.append('archivoexcel',files);
+    .ajax({
+      url:'importa_excel_ajax.php',
+      type: 'post',
+      data: formdata,
+      contentType:false,
+      processData:false,
+      success: function (resp){
+        alert(resp);
+
+      }
+    });
+  }
+
+
+</script>
